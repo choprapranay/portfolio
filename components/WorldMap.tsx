@@ -5,7 +5,6 @@ import { animate, motion } from "framer-motion";
 import { PaperAirplaneIcon as PlaneOutline } from "@heroicons/react/24/outline";
 import { WAYPOINTS } from "@/lib/waypoints";
 
-// WORLD size (logical units) and CAMERA window
 const WORLD_W = 200;
 const WORLD_H = 100;
 const CAM_W = 100;
@@ -44,15 +43,14 @@ export default function WorldMap() {
     const pathRef = useRef<SVGPathElement | null>(null);
     const svgRef = useRef<SVGSVGElement | null>(null);
 
-    // Precompute path lengths (for accurate waypoint progress)
     const { cum, total } = useMemo(() => cumulativeLengths(points), [points]);
 
     // Animation & camera state
-    const [progress, setProgress] = useState(0);      // 0..1 along path
-    const [isPlaying, setIsPlaying] = useState(true); // autoplay state
-    const [camX, setCamX] = useState(0);              // camera top-left
+    const [progress, setProgress] = useState(0);
+    const [isPlaying, setIsPlaying] = useState(true);
+    const [camX, setCamX] = useState(0);
     const [camY, setCamY] = useState(0);
-    const [activeIdx, setActiveIdx] = useState(0);    // highlight active waypoint
+    const [activeIdx, setActiveIdx] = useState(0);
 
     // Pixel-stable waypoint hit radius (≈28px), computed from current SVG size
     const [hitRUnits, setHitRUnits] = useState(2);
@@ -63,7 +61,7 @@ export default function WorldMap() {
 
         const updateHitRadius = () => {
             const rect = svgEl.getBoundingClientRect();
-            const ppuX = rect.width / CAM_W;   // pixels per world unit horizontally
+            const ppuX = rect.width / CAM_W;
             const desiredPx = 28;
             const units = Math.max(2, desiredPx / ppuX);
             setHitRUnits(units);
@@ -75,7 +73,6 @@ export default function WorldMap() {
         return () => ro.disconnect();
     }, []);
 
-    // Autoplay 0 → 1
     useEffect(() => {
         if (!isPlaying) return;
         const controls = animate(progress, 1, {
@@ -85,10 +82,8 @@ export default function WorldMap() {
             onComplete: () => setIsPlaying(false),
         });
         return () => controls.stop();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isPlaying]);
 
-    // Sample plane (x,y,angle) on the path
     let x = 0, y = 0, angle = 0;
     if (pathRef.current) {
         const p = pathRef.current;
@@ -99,23 +94,19 @@ export default function WorldMap() {
         angle = (Math.atan2(ahead.y - cur.y, ahead.x - cur.x) * 180) / Math.PI;
     }
 
-    // Camera follows the plane (center-ish), clamped to world
     useEffect(() => {
         const targetX = clamp(x - CAM_W / 2, 0, WORLD_W - CAM_W);
         const targetY = clamp(y - CAM_H / 2, 0, WORLD_H - CAM_H);
         const cx = animate(camX, targetX, { duration: 0.6, ease: "easeOut", onUpdate: v => setCamX(v) });
         const cy = animate(camY, targetY, { duration: 0.6, ease: "easeOut", onUpdate: v => setCamY(v) });
         return () => { cx.stop(); cy.stop(); };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [x, y]);
 
-    // Map waypoint index -> true progress by length
     function progressForWaypoint(idx: number) {
         if (total === 0) return 0;
         return cum[idx] / total;
     }
 
-    // Click-to-fly: ONLY when paused
     const jumpTo = (idx: number) => {
         if (isPlaying) return;
         setActiveIdx(idx);
@@ -130,9 +121,8 @@ export default function WorldMap() {
         return () => controls.stop();
     };
 
-    // plane visual params
-    const planeSize = 6;        // world units; CAM_W=100 → this is ~6% of width
-    const noseOffsetDeg = -45;  // aim paper plane's nose along +X
+    const planeSize = 6;
+    const noseOffsetDeg = -45;
 
     return (
         <div className="relative w-full h-[70vh] rounded-2xl bg-gradient-to-b from-sky-100 to-white shadow p-4">
@@ -172,7 +162,7 @@ export default function WorldMap() {
                         <circle
                             r={activeIdx === idx ? 2 : 1.6}
                             className={activeIdx === idx ? "fill-sky-200 stroke-sky-700" : "fill-white stroke-slate-800"}
-                            style={{ pointerEvents: "none" }} // don't steal clicks
+                            style={{ pointerEvents: "none" }}
                         />
                         {/* Label */}
                         <text
