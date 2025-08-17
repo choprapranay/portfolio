@@ -1,47 +1,32 @@
 const CUSTOM_MAP: google.maps.MapTypeStyle[] = [
-    {"featureType":"all","elementType":"all","stylers":[{"visibility":"on"}]},
-    {"featureType":"all","elementType":"labels","stylers":[{"visibility":"off"},{"saturation":"-100"}]},
-    {"featureType":"all","elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40},{"visibility":"off"}]},
-    {"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"off"},{"color":"#000000"},{"lightness":16}]},
-    {"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},
+    { featureType: "all", elementType: "labels", stylers: [{ visibility: "off" }] },
+    { featureType: "all", elementType: "labels.icon", stylers: [{ visibility: "off" }] },
 
-    // Administrative
-    {"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":20}]},
-    {"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]},
+    // LAND — cool slate/stone
+    { featureType: "landscape", elementType: "geometry.fill", stylers: [{ color: "#CFCAC4" }] },
+    { featureType: "landscape", elementType: "geometry.stroke", stylers: [{ color: "#C2BDB7" }] },
+    { featureType: "landscape.natural", elementType: "geometry.fill", stylers: [{ color: "#CFCAC4" }] },
 
-    // LAND → maroon-ish
-    {"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},
-    {"featureType":"landscape","elementType":"geometry.fill","stylers":[{"color":"#7a1f3d"}]},
-    {"featureType":"landscape","elementType":"geometry.stroke","stylers":[{"color":"#5b152d"}]},
-    {"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"color":"#7a1f3d"}]},
+    // POI
+    { featureType: "poi", elementType: "geometry.fill", stylers: [{ color: "#D1CCC6" }] },
+    { featureType: "poi", elementType: "geometry.stroke", stylers: [{ color: "#C2BDB7" }] },
 
-    // POIs (match land tone, subtle)
-    {"featureType":"poi","elementType":"geometry","stylers":[{"lightness":21}]},
-    {"featureType":"poi","elementType":"geometry.fill","stylers":[{"color":"#7a1f3d"}]},
-    {"featureType":"poi","elementType":"geometry.stroke","stylers":[{"color":"#5b152d"}]},
+    // ROADS — slightly darker gray
+    { featureType: "road", elementType: "geometry", stylers: [{ color: "#BFB9B3" }] },
+    { featureType: "road", elementType: "geometry.fill", stylers: [{ color: "#BFB9B3" }] },
+    { featureType: "road", elementType: "geometry.stroke", stylers: [{ color: "#B3ADA7" }] },
+    { featureType: "road.highway", elementType: "geometry.fill", stylers: [{ color: "#C7C1BB" }] },
+    { featureType: "road.highway", elementType: "geometry.stroke", stylers: [{ color: "#BAB4AE" }, { weight: 0.4 }] },
+    { featureType: "road.arterial", elementType: "geometry.fill", stylers: [{ color: "#C3BDB7" }] },
+    { featureType: "road.local", elementType: "geometry.fill", stylers: [{ color: "#CCC6C0" }] },
 
-    // ROADS (light so pins/plane pop)
-    {"featureType":"road","elementType":"geometry","stylers":[{"visibility":"on"},{"color":"#cfc6c9"}]},
-    {"featureType":"road","elementType":"geometry.fill","stylers":[{"color":"#cfc6c9"}]},
-    {"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#e4dadd"}]},
-    {"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#e4dadd"},{"lightness":17}]},
-    {"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#d2c6c9"},{"lightness":29},{"weight":0.2}]},
-    {"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#cfc6c9"}]},
-    {"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#cfc6c9"}]},
-    {"featureType":"road.arterial","elementType":"geometry.stroke","stylers":[{"color":"#cfc6c9"}]},
-    {"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#e9e4e6"}]},
-    {"featureType":"road.local","elementType":"geometry.fill","stylers":[{"color":"#e9e4e6"}]},
-    {"featureType":"road.local","elementType":"geometry.stroke","stylers":[{"color":"#e9e4e6"}]},
+    { featureType: "transit", elementType: "geometry", stylers: [{ visibility: "off" }] },
 
-    // Transit off
-    {"featureType":"transit","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":19}]},
-
-    // WATER → blue
-    {"featureType":"water","elementType":"all","stylers":[{"color":"#2aa7ff"},{"visibility":"on"}]},
-    {"featureType":"water","elementType":"geometry","stylers":[{"color":"#2aa7ff"},{"lightness":17}]},
-    {"featureType":"water","elementType":"geometry.fill","stylers":[{"color":"#2aa7ff"}]},
-    {"featureType":"water","elementType":"geometry.stroke","stylers":[{"color":"#2aa7ff"}]},
-    {"featureType":"water","elementType":"labels","stylers":[{"visibility":"off"}]}
+    // WATER — darker, muted ocean
+    { featureType: "water", elementType: "geometry.fill", stylers: [{ color: "#5E7891" }] },
+    { featureType: "water", elementType: "geometry.stroke", stylers: [{ color: "#5E7891" }] },
+    { featureType: "water", elementType: "labels", stylers: [{ visibility: "off" }] },
 ];
 
+//
 export default CUSTOM_MAP;
